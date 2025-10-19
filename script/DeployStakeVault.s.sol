@@ -7,7 +7,8 @@ import {StakeVault} from "../src/StakeVault.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 
 contract DeployStakeVault is Script {
-    function run(HelperConfig helper) external returns (StakeVault, HelperConfig) {
+    function run () external returns (StakeVault, HelperConfig) {
+		HelperConfig helper = new HelperConfig();
         (address priceFeed, address usdcAddress) = helper.activeNetworkConfig();
 
         vm.startBroadcast();

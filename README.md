@@ -1,5 +1,8 @@
 Multi-Asset Staking Vault
 
+Contract Address (Sepolia):
+ 0x1a6CaF724343Fb02d0ADf5834Da00db83796aA76
+
 A secure, modular staking vault supporting ETH and USDC deposits. Features include automated reward distribution, price deviation monitoring via Chainlink Automation, and enterprise-grade security with reentrancy protection.
 
 🔑 Features
