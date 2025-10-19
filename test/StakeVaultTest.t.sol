@@ -6,7 +6,7 @@ import {Test, console} from "forge-std/Test.sol";
 import "../src/StakeVault.sol";
 import {DeployStakeVault} from "../script/DeployStakeVault.s.sol";
 import {HelperConfig} from "../script/HelperConfig.s.sol";
-import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
+import {ERC20Mock} from "./mocks/Erc20Mocks.sol";
 import {PriceConverter} from "../src/PriceConverter.sol";
 import {BadReciever} from "./mocks/BadReciever.sol";
 import {MockV3Aggregator} from "@chainlink/src/v0.8/tests/MockV3Aggregator.sol";
@@ -1128,7 +1128,7 @@ contract StakeVaultTest is Test {
         vault.fundDepositorsProvidedPool(StakeVault.TokenType.USDC, 1000e6);
         vm.stopPrank();
 
-        ERC20Mock(usdcAddress).mint(address(vault), USDC_STARTING_USER_BALANCE);
+        ERC20Mock(usdcAddress).mint(address(bad), USDC_STARTING_USER_BALANCE);
 
         vm.prank(address(bad));
         ERC20Mock(usdcAddress).approve(address(vault), USDC_STARTING_USER_BALANCE);
