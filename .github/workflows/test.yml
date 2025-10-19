@@ -24,9 +24,10 @@ jobs:
         run: |
           forge --version
 
-      - name: Run Forge fmt
+        - name: Run Forge fmt
         run: |
-          forge fmt --check
+           forge fmt
+           git diff --exit-code || (echo "Files need formatting:" && git diff && exit 1)
         id: fmt
 
       - name: Run Forge build
