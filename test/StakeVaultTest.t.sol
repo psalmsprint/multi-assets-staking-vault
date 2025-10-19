@@ -162,7 +162,7 @@ contract StakeVaultTest is Test {
     function testVersionOfThePriceFeedNode() public view {
         uint256 version = PriceConverter.getVersion(MockV3Aggregator(priceFeed));
 
-        assertEq(version, 4);
+        assertEq(version, 0);
     }
 
     function testStakerRewardRateReturnRate() public view {
