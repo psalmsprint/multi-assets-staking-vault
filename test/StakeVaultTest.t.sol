@@ -50,16 +50,18 @@ contract StakeVaultTest is Test {
     function setUp() external {
         deployer = new DeployStakeVault();
         helper = new HelperConfig();
+		(vault, helper) = deployer.run();
         (priceFeed, usdcAddress) = helper.activeNetworkConfig();
-
-        (vault, helper) = deployer.run();
-
+		
         bad = new BadReciever();
 
-        vm.deal(user, STARTING_USER_BALANCE);
+        deal(user, STARTING_USER_BALANCE);
 
         ERC20Mock(usdcAddress).mint(user, USDC_STARTING_USER_BALANCE);
+		
         ERC20Mock(usdcAddress).mint(address(bad), USDC_STARTING_USER_BALANCE);
+		vm.prank(address(bad));
+		ERC20Mock(usdcAddress).approve(address(bad), USDC_STARTING_USER_BALANCE);
     }
 
     //________________________________________
@@ -222,6 +224,9 @@ contract StakeVaultTest is Test {
     function testtrnxPassedWhenContractIsUnPaused() public isPaused {
         vm.prank(msg.sender);
         vault.unPause();
+		
+		vm.prank(user);
+		ERC20Mock(usdcAddress).approve(address(vault), USDC_STARTING_USER_BALANCE);
 
         vm.prank(user);
         vault.depositETH{value: DEPOSIT_AMOUNT}();
@@ -374,7 +379,7 @@ contract StakeVaultTest is Test {
         vm.prank(user);
         ERC20Mock(usdcAddress).approve(address(vault), USDC_STARTING_USER_BALANCE);
 
-        vm.expectEmit();
+        vm.expectEmit(true, false, false, true);
         emit Deposited(user, USDC_DEPOSIT_AMOUNT);
 
         vm.prank(user);
@@ -1017,7 +1022,6 @@ contract StakeVaultTest is Test {
     }
 
     function testWithdrawUSDCTransferFails() public depositUsdc stakedUSDC fundUSDCPool time unStaked {
-			  vm.skip(true);
 	   vm.warp(block.timestamp + 1 days);
 
         ERC20Mock(usdcAddress).setBlockedReceiver(user);
